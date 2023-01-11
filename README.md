@@ -20,6 +20,6 @@ If you encounter any issues with any of the scripts in this repository, please o
 
 ## **License**
 
-This repository is licensed under the **[MIT license]()**.
+This repository is licensed under the **[MIT license](https://github.com/Monzim/script/blob/main/LICENSE)**.
 
 Please note that the script details provided above are examples and should be replaced with the actual script details in your repository.
