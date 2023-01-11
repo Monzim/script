@@ -8,7 +8,7 @@ This script automates the installation and configuration of Docker on Ubuntu sys
 
 ```
 Copy code
-wget https://github.com/Monzim/script/blob/main/docker/docker-install.sh
+wget wget https://raw.githubusercontent.com/Monzim/script/main/docker/docker-install.sh
 chmod +x docker-install.sh
 
 ```

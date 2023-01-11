@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Docker Installation Script for Ubuntu
+# Original Author: https://docs.docker.com/engine/install/ubuntu/ and ChatGPT
+# Modified by: Azraf Al Monzim @Monzim
+#   -
+
 #Uninstall old versions
 echo "🚫 Removing old versions of Docker..."
 sudo apt-get remove docker docker-engine docker.io containerd runc;
@@ -27,20 +32,26 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 echo "🤖 Verifying Docker Engine installation..."
 sudo docker run hello-world
 
+# Install Docker Compose
+echo "🚀 Installing Docker Compose..."
+sudo apt-get install -y docker-compose
+
+
 # Manage Docker as a non-root user
-read -p "Do you want to Manage Docker as a non-root user? (y/n) " manage
+read -p "Do you want to Manage Docker as a non-root user? (Y/n) " manage
 if [ $manage == "y" ]; then
   echo "👥 Adding user to docker group..."
   sudo groupadd docker
   sudo usermod -aG docker $USER
 
   echo "🔑 Changing ownership and permissions for .docker directory..."
+  sudo mkdir -p /home/"$USER"/.docker
   sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
   sudo chmod g+rwx "$HOME/.docker" -R
 fi
 
 # Configure Docker to start on boot with systemd
-read -p "Do you want to Configure Docker to start on boot with systemd? (y/n) " start
+read -p "Do you want to Configure Docker to start on boot with systemd? (Y/n) " start
 if [ $start == "y" ]; then
   echo "🚀 Enabling Docker service on boot..."
   sudo systemctl enable docker.service
@@ -48,4 +59,6 @@ if [ $start == "y" ]; then
 fi
 
 echo "🎉 Done! Docker is now installed on your system."
+echo "🔗 For more information, visit https://docs.docker.com/engine/install/ubuntu/"
+
 
