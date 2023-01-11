@@ -7,11 +7,7 @@ sudo apt-get remove docker docker-engine docker.io containerd runc
 # Install using the repository
 echo "🔍 Setting up repository..."
 sudo apt-get update
-sudo apt-get install -y \
-    ca-certificates \
-    curl \
-    gnupg \
-    lsb-release
+sudo apt-get install -y ca-certificates curl gnupg lsb-release
 
 # Add Docker’s official GPG key
 echo "🔑 Adding Docker's official GPG key..."
