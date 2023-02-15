@@ -39,7 +39,7 @@ sudo apt-get install -y docker-compose
 
 # Manage Docker as a non-root user
 read -p "Do you want to Manage Docker as a non-root user? (Y/n) " manage
-if [ $manage == "y" ]; then
+if [ $manage == "Y" ]; then
   echo "👥 Adding user to docker group..."
   sudo groupadd docker
   sudo usermod -aG docker $USER
@@ -52,7 +52,7 @@ fi
 
 # Configure Docker to start on boot with systemd
 read -p "Do you want to Configure Docker to start on boot with systemd? (Y/n) " start
-if [ $start == "y" ]; then
+if [ $start == "Y" ]; then
   echo "🚀 Enabling Docker service on boot..."
   sudo systemctl enable docker.service
   sudo systemctl enable containerd.service

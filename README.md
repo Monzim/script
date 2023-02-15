@@ -8,7 +8,8 @@ Each script has its own readme file that describes what it does and how to use i
 
 ## **Scripts**
 
-- **Docker**: Setup Docker in Deabian or Ubuntu Base distro
+- **Docker**: Setup Docker in Debian or Ubuntu Base distro
+- **Appwrite**: Setup Appwrite with Docker compose
 
 ## **Contributing**
 
