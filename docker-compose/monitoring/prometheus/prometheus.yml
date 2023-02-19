@@ -1,0 +1,33 @@
+# Add this file to /etc/prometheus
+
+# This section specifies global configuration options that apply to all scrape configs.
+global:
+  # This setting determines how often Prometheus scrapes targets for metrics.
+  scrape_interval: 15s
+
+  # These labels will be attached to any time series or alerts when communicating with external systems.
+  # In this example, there are no external labels defined.
+  # external_labels:
+  #  monitor: 'codelab-monitor'
+
+# This section defines the scrape configurations, which determine what metrics are collected and from where.
+scrape_configs:
+  # This scrape configuration is for scraping metrics from the Prometheus server itself.
+  - job_name: "prometheus"
+    # Override the global default and scrape targets from this job every 5 seconds.
+    scrape_interval: 5s
+    static_configs:
+      # This specifies the endpoint to scrape, which in this case is the Prometheus server running on localhost port 9090.
+      - targets: ["localhost:9090"]
+
+  # This scrape configuration is for scraping metrics from the node_exporter.
+  - job_name: "node_exporter"
+    static_configs:
+      # This specifies the endpoint to scrape, which in this case is the node_exporter running on the host "node_exporter" port 9100.
+      - targets: ["node_exporter:9100"]
+
+  # This scrape configuration is for scraping metrics from cAdvisor.
+  - job_name: "cadvisor"
+    static_configs:
+      # This specifies the endpoint to scrape, which in this case is cAdvisor running on the host "cadvisor" port 8080.
+      - targets: ["cadvisor:8080"]

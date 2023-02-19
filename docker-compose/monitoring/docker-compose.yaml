@@ -1,0 +1,100 @@
+version: "3"
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      # Mount the directory containing Prometheus configuration files
+      # on the host to the container's /etc/prometheus directory.
+      - /etc/prometheus:/etc/prometheus
+      # Mount the Prometheus data directory on the host to the container's /prometheus directory.
+      # This will allow Prometheus to persist its data across container restarts.
+      - prometheus-data:/prometheus
+    restart: unless-stopped
+    command:
+      # Specify the path to the Prometheus configuration file.
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    networks:
+      # Connect the container to the monitoring network.
+      - monitoring
+
+  grafana:
+    image: grafana/grafana-oss:latest
+    container_name: grafana
+    ports:
+      # Expose Grafana on port 3000 of the host.
+      - "3000:3000"
+    volumes:
+      # Mount the Grafana data directory on the host to the container's /var/lib/grafana directory.
+      # This will allow Grafana to persist its data across container restarts.
+      - grafana-data:/var/lib/grafana
+    restart: unless-stopped
+    networks:
+      # Connect the container to the monitoring network.
+      - monitoring
+
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node_exporter
+    command:
+      # Specify the path to the root filesystem. This is necessary because the
+      # node exporter will not have access to the container's filesystem by default.
+      - "--path.rootfs=/host"
+    # Use the host's PID namespace to avoid namespace isolation issues.
+    pid: host
+    restart: unless-stopped
+    volumes:
+      # Mount the host's root filesystem to the container's /host directory.
+      # This is necessary because the node exporter needs to be able to access
+      # information about the host's filesystem and processes.
+      - "/:/host:ro,rslave"
+    networks:
+      # Connect the container to the monitoring network.
+      - monitoring
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    volumes:
+      # Mount various directories from the host to the container for
+      # monitoring purposes.
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    devices:
+      # Allow the container to access the kernel logs. This is necessary
+      # for cAdvisor to collect certain metrics.
+      - /dev/kmsg
+    restart: unless-stopped
+    privileged: true
+    networks:
+      # Connect the container to the monitoring network.
+      - monitoring
+
+networks:
+  monitoring:
+    driver: bridge
+
+volumes:
+  prometheus-data:
+    driver: local
+    # Specify the directory on the host where Prometheus data will be stored.
+    driver_opts:
+      type: none
+      o: bind
+      # Use a relative path to the user's home directory to avoid hard-coding the username.
+      device: ~/monitoringSystemData/prometheus
+      # Create the directory if it doesn't exist.
+
+  grafana-data:
+    driver: local
+    driver_opts:
+      # Specify the directory on the host where Grafana data will be stored.
+      type: none
+      o: bind
+      # Use a relative path to the user's home directory to avoid hard-coding the username.
+      device: ~/monitoringSystemData/grafana
+      # Create the directory if it doesn't exist.
