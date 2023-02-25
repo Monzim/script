@@ -16,7 +16,9 @@ This is a Docker Compose configuration for setting up a simple monitoring system
    ```bash
    mkdir -p ~/monitoringSystemData/prometheus
    mkdir -p ~/monitoringSystemData/grafana
+   sudo mkdir -p /etc/prometheus
    sudo cp docker-compose/monitoring/prometheus/prometheus.yml /etc/prometheus/
+   cd docker-compose/monitoring
    ```
 
 4. Start the monitoring system: **`docker compose up -d`**
